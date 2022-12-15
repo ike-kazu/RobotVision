@@ -15,7 +15,7 @@ files_2 = []
 z = 0
 clearframe = 0
 frameRate = 0
-second = 180
+second = 10
 is_clear = False
 length = 0
 
@@ -87,7 +87,7 @@ y = np.sum(img2) / 255
 #無限ループで差分をとる
 while True:    
     ret,frame = cap.read()
-    cv2.putText(frame, 'score', (140, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
+    cv2.putText(frame, 'progress', (140, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
     cv2.rectangle(frame, (140, 30), (500, 60), (255, 255, 255), thickness=2)
     # スクショがあるなら差分を出力
     if screenshot:
@@ -129,9 +129,20 @@ while True:
                 img3 = files_2[z]
                 y = np.sum(img2) / 255
                 clearframe = 0
+                second = 10
                 #print(z)
         elif 0.80 <= x / (y) and clearframe > 0:
             clearframe -= 1
+        
+        #timeout
+        if second == 0:
+            print("failure")
+            z = createrandom()
+            img2 = files[z]
+            img3 = files_2[z]
+            y = np.sum(img2) / 255
+            clearframe = 0
+            second = 20
         length = 140 + (500 - 140)*clearframe/90
         cv2.rectangle(frame, (140, 30), (int(length), 60), (255, 255, 255), thickness=-1)
     
