@@ -97,9 +97,10 @@ while True:
     frame_shot = frame
     
     cv2.putText(frame, 'progress', (140, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
+    cv2.putText(frame, 'hp: ' + str(hp), (500, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
     cv2.rectangle(frame, (140, 30), (500, 60), (255, 255, 255), thickness=2)
     # スクショがあるなら差分を出力
-    if screenshot:
+    if screenshot and interval == 0:
         # 背景差分のクラスを定義(リセット)
         fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
         # 背景画像を指定(スクショ)
@@ -139,11 +140,11 @@ while True:
                 img3 = files_2[z]
                 y = np.sum(img2) / 255
                 clearframe = 0
-                time.sleep(3)
                 second = 10
                 hp += 10
                 if hp > 100:
                     hp = 100
+                interval = 90
                 #print(z)
         elif 1.5 <= x / (y) and clearframe > 0:
             clearframe -= 1
@@ -158,6 +159,7 @@ while True:
             clearframe = 0
             second = 10
             hp -= 30
+            interval = 90
             
         #gameover
         if hp <= 0:
@@ -167,12 +169,15 @@ while True:
               cv2.putText(frame, 'restart:s quit :q', (180, 280), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
         length = 140 + (500 - 140)*clearframe/90
         cv2.rectangle(frame, (140, 30), (int(length), 60), (255, 255, 255), thickness=-1)
-        cv2.putText(frame, 'hp: ' + str(hp), (500, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
+        #cv2.putText(frame, 'hp: ' + str(hp), (500, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
     else:
         if gameover:
             cv2.putText(frame, 'GAME OVER', (180, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
             cv2.putText(frame, 'quit :q', (180, 280), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
     #text = "{}{:.0f}{}".format(clearframe)
+        elif interval != 0:
+            interval -= 1
+            cv2.putText(frame, str(int(interval / 30) + 1), (280, 240), cv2.FONT_HERSHEY_SIMPLEX, 3.0, (255, 255, 0), thickness=2)
         else:
             cv2.putText(frame, 'press s to start', (180, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
     #cv2.putText(frame, text, (150, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
