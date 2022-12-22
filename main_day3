@@ -118,7 +118,7 @@ while True:
         cv2.imshow("flow2", mask_tfin)
         out_number = np.sum(mask_tfout)
         in_number = np.sum(mask_tfin)
-        x = (out_number + in_number) / 255
+        x = (in_number) / 255
         # 経過秒数のカウント
         frameRate += 1
     
@@ -129,7 +129,7 @@ while True:
         #print(x/y)
     
         #判定
-        if 1.4 >= x / (y) and out_number > 500000:
+        if 0.35 >= x / (y) and out_number < 10000000:
             clearframe += 1
             #print(clearframe)
             #cv2.rectangle(frame, (142,32), ())
@@ -148,7 +148,7 @@ while True:
                     hp = 100
                 interval = 90
                 #print(z)
-        elif 1.4 <= x / (y) and clearframe > 0:
+        elif 0.35 <= x / (y) and clearframe > 0:
             clearframe -= 1
         
         #timeout
@@ -161,6 +161,8 @@ while True:
             clearframe = 0
             second = 10
             hp -= 30
+            if hp < 0:
+                hp = 0
             interval = 90
             
         #gameover
@@ -204,6 +206,8 @@ while True:
         
     elif k == ord("r"):
         hp -= 30
+        if hp < 0:
+                hp = 0
         second = 10
         z = createrandom()
         img2 = files[z]
@@ -211,6 +215,10 @@ while True:
         y = np.sum(img2) / 255
         print(z)
         mask_tfout = 0
+    elif k == ord("k"):
+        z = 10
+        img2 = files[z]
+        img3 = files_2[z]
               
 #ポーズ画像と比較
 
