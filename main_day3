@@ -105,8 +105,9 @@ while True:
     
     cv2.putText(frame, 'progress', (140, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
     #cv2.putText(frame, 'hp:' + str(hp), (500, 45), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 10), thickness=2)
-    cv2.ellipse(frame, (60, 60), (40, 40), 0, 0, 360, (0, 0, 255), thickness=-1)
-    cv2.ellipse(frame, (60, 60), (40, 40), 0, 270, 270+hp/100*360, (0, 255, 10), thickness=-1)
+    cv2.ellipse(frame, (50, 45), (30, 30), 0, 0, 360, (255, 255, 255), thickness=3)
+    cv2.ellipse(frame, (50, 45), (30, 30), 0, 0, 360, (0, 0, 200), thickness=-1)
+    cv2.ellipse(frame, (50, 45), (30, 30), 0, 270, 270+hp/100*360, (0, 230, 10), thickness=-1)
     cv2.rectangle(frame, (140, 30), (500, 60), (255, 255, 255), thickness=2)
     # スクショがあるなら差分を出力
     if screenshot and interval == 0:
