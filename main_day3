@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 import random
 
+
+
 files = []
 files_2 = []
 files_3 = []
@@ -29,10 +31,11 @@ def createOutline(img_sample, img_origin):
     #img_sample = cv2.resize(img_sample, dsize = (640, 480))
     #img_sample = cv2.bitwise_not(img_sample)
     img_gray = cv2.cvtColor(img_sample, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("createOutput_debug_1", img_gray)
+    # TODO
+    #cv2.imshow("createOutput_debug_1", img_gray)
     ret, img_binary = cv2.threshold(img_gray, 1, 255,cv2.THRESH_BINARY)
     contours, hierarchy = cv2.findContours(img_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    img_with_outline = cv2.drawContours(img_origin, contours, -1, (0, 255, 0), 5)
+    img_with_outline = cv2.drawContours(img_origin, contours, -1, (0, 255, 0), 3)
     return img_with_outline
 
 def createrandom():
@@ -56,10 +59,11 @@ def framecount(f):
     return f + 1
 
 #1枚
+'''
 img1 = cv2.imread('./data/pose/pose1.png')
 img1 = cv2.bitwise_not(img1)
 gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-
+'''
 
 for n in range(1, 12):
     img = cv2.imread("./data/pose_resized/poseR"+str(n)+".png")
@@ -87,7 +91,8 @@ img2 = cv2.threshold(img1, 100, 255, cv2.THRESH_BINARY)
 
 #cv2.imshow("sample", img2)
 img2 = files[z]
-cv2.imshow("img2debug",img2)
+# TODO
+#cv2.imshow("img2debug",img2)
 img3 = files_2[z]
 y = np.sum(img2) / 255
 
@@ -99,7 +104,7 @@ while True:
     frame_shot = frame
     
     cv2.putText(frame, 'progress', (140, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
-    cv2.putText(frame, 'hp: ' + str(hp), (500, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
+    cv2.putText(frame, 'hp:' + str(hp), (500, 45), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 255, 0), thickness=2)
     cv2.rectangle(frame, (140, 30), (500, 60), (255, 255, 255), thickness=2)
     # スクショがあるなら差分を出力
     if screenshot and interval == 0:
@@ -111,11 +116,13 @@ while True:
         fgmask = fgbg.apply(frame)
         
         mask_tfout = fgmask - img2
-        cv2.imshow("flow1", mask_tfout)
+        # TODO
+        #cv2.imshow("flow1", mask_tfout)
         
         mask_tfin = np.abs(img2 - fgmask)
-        cv2.imshow("debug", photo)
-        cv2.imshow("flow2", mask_tfin)
+        # TODO
+        #cv2.imshow("debug", photo)
+        #cv2.imshow("flow2", mask_tfin)
         out_number = np.sum(mask_tfout)
         in_number = np.sum(mask_tfin)
         x = (in_number) / 255
@@ -177,7 +184,7 @@ while True:
     else:
         if gameover:
             cv2.putText(frame, 'GAME OVER', (180, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
-            cv2.putText(frame, 'quit :q', (180, 280), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
+            cv2.putText(frame, 'restart:s quit :q', (180, 280), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 0), thickness=2)
     #text = "{}{:.0f}{}".format(clearframe)
         elif interval != 0:
             interval -= 1
@@ -207,7 +214,7 @@ while True:
     elif k == ord("r"):
         hp -= 30
         if hp < 0:
-                hp = 0
+            hp = 0
         second = 10
         z = createrandom()
         img2 = files[z]
@@ -215,10 +222,12 @@ while True:
         y = np.sum(img2) / 255
         print(z)
         mask_tfout = 0
+    #隠しコマンド:始める前に押す
     elif k == ord("k"):
-        z = 10
-        img2 = files[z]
-        img3 = files_2[z]
+        if screenshot == False:
+            z = 10
+            img2 = files[z]
+            img3 = files_2[z]
               
 #ポーズ画像と比較
 
