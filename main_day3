@@ -13,6 +13,7 @@ import time
 
 files = []
 files_2 = []
+files_3 = []
 files_t = []
 z = 0
 clearframe = 0
@@ -66,6 +67,8 @@ for n in range(1, 12):
     img = cv2.bitwise_not(img)
     files_2.append(img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    alfa = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGRA)
+    files_3.append(alfa)
     #cv2.imshow("createOutput_debug_1", gray)
     ret, change = cv2.threshold(gray, 1, 255,cv2.THRESH_BINARY)
     # TODO: 消去
@@ -124,7 +127,7 @@ while True:
             second -= 1
         putText(frame, str(int(second)), 0, 50)
         createOutline(img3, frame)
-        print(x/y)
+        #print(x/y)
     
         #判定
         if 1.5 >= x / (y):
@@ -183,7 +186,11 @@ while True:
     #cv2.putText(frame, text, (150, 25), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), thickness=2)
     #frame = frame + cv2.resize(img3, dsize = (640, 480))
     
-    cv2.imshow("output",frame)
+    if screenshot == True and interval == 0:
+        frame = cv2.addWeighted(cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA), 1.0, files_3[z], 0.4, 0)
+        cv2.imshow("output",frame)
+    else:
+        cv2.imshow("output",frame)
         
     k = cv2.waitKey(1)
     if k == ord("q"):
