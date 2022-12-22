@@ -130,7 +130,7 @@ while True:
         #print(x/y)
     
         #判定
-        if 1.5 >= x / (y):
+        if 1.4 >= x / (y) and out_number > 500000:
             clearframe += 1
             #print(clearframe)
             #cv2.rectangle(frame, (142,32), ())
@@ -149,7 +149,7 @@ while True:
                     hp = 100
                 interval = 90
                 #print(z)
-        elif 1.5 <= x / (y) and clearframe > 0:
+        elif 1.4 <= x / (y) and clearframe > 0:
             clearframe -= 1
         
         #timeout
@@ -202,9 +202,7 @@ while True:
         gameover = False
         hp = 100
         interval = 90
-        if interval != 0:
-            interval -= 1
-            cv2.putText(frame, str(int(interval / 30) + 1), (280, 240), cv2.FONT_HERSHEY_SIMPLEX, 3.0, (255, 255, 0), thickness=2)
+        
     elif k == ord("r"):
         hp -= 30
         second = 10
