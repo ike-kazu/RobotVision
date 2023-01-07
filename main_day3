@@ -120,12 +120,12 @@ while True:
         
         mask_tfout = fgmask - img2
         # TODO
-        #cv2.imshow("flow1", mask_tfout)
+        cv2.imshow("flow1", mask_tfout)
         
         mask_tfin = np.abs(img2 - fgmask)
         # TODO
-        #cv2.imshow("debug", photo)
-        #cv2.imshow("flow2", mask_tfin)
+        cv2.imshow("debug", photo)
+        cv2.imshow("flow2", mask_tfin)
         out_number = np.sum(mask_tfout)
         in_number = np.sum(mask_tfin)
         x = (in_number) / 255
@@ -139,7 +139,7 @@ while True:
         #print(x/y)
     
         #判定
-        if 0.35 >= x / (y) and out_number < 10000000:
+        if 0.35 >= x / (y) and out_number < 255*640*480*0.35:
             clearframe += 1
             #print(clearframe)
             #cv2.rectangle(frame, (142,32), ())
@@ -209,6 +209,7 @@ while True:
     # フレームを保存 (スクショ)
     elif k == ord("s"):
         ret, photo = cap.read()
+        photo = cv2.flip(photo, 1)
         screenshot = True
         gameover = False
         hp = 100
